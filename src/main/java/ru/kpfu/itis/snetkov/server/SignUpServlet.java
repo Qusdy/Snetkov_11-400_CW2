@@ -26,6 +26,8 @@ public class SignUpServlet extends HttpServlet {
         if (login != null && password != null && !data.containsKey(login)) {
             data.put(login, password);
             resp.sendRedirect("login.html");
+        } else {
+            resp.sendRedirect("sign_up.html");
         }
         // TODO: persist in memory (Map) login + password and after that use it in LoginServlet instead of "login" and "password"
     }
