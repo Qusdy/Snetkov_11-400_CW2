@@ -23,7 +23,7 @@ public class SignUpServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (login != null && password != null && !data.containsKey(login)) {
+        if (!login.isEmpty() && !password.isEmpty() && !data.containsKey(login)) {
             data.put(login, password);
             resp.sendRedirect("login.html");
         } else {
