@@ -13,7 +13,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.sendRedirect("login.html");
+        resp.sendRedirect("login.ftl");
     }
 
     @Override
@@ -35,9 +35,9 @@ public class LoginServlet extends HttpServlet {
 
             resp.addCookie(cookie);
 
-            resp.sendRedirect("main.jsp");
+            resp.sendRedirect("main");
         } else {
-            resp.sendRedirect("/login");
+            resp.sendRedirect("login");
         }
     }
 
