@@ -1,5 +1,10 @@
 package ru.kpfu.itis.snetkov.server;
 
+import ru.kpfu.itis.snetkov.dto.UserDto;
+import ru.kpfu.itis.snetkov.service.UserService;
+import ru.kpfu.itis.snetkov.service.impl.UserServiceImpl;
+import ru.kpfu.itis.snetkov.util.PasswordUtil;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +15,7 @@ import java.io.IOException;
 
 @WebServlet(name = "Login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-
+    UserService userService = new UserServiceImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.sendRedirect("login.ftl");
@@ -20,8 +25,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-
-        if (SignUpServlet.authenticate(login, password)) {
+//        UserDto user = userService.getByLogin(login);
+        if (userService.authenticate(login, password)) {
             // logic to authenticate user
 
             // session
