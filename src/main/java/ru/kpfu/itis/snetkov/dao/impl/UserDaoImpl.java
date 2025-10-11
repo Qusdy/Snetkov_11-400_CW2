@@ -47,8 +47,8 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-//            return false;
-            throw new RuntimeException(e);
+            return false;
+//            throw new RuntimeException(e);
         }
     }
 
@@ -68,8 +68,8 @@ public class UserDaoImpl implements UserDao {
             }
             return null;
         } catch (SQLException e) {
-//            return null;
-            throw new RuntimeException(e);
+            return null;
+//            throw new RuntimeException(e);
         }
     }
 
@@ -85,8 +85,8 @@ public class UserDaoImpl implements UserDao {
             }
             return null;
         } catch (SQLException e) {
-//            return null;
-            throw new RuntimeException(e);
+            return null;
+//            throw new RuntimeException(e);
         }
     }
 }

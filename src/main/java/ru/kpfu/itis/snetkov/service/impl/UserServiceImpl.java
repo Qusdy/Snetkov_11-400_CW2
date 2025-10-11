@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
     public boolean authenticate(String login, String password) {
         String storedHash = userDao.getPasswordByLogin(login);
         if (storedHash == null) {
-            throw new RuntimeException("egadfdf");
-//            return false;
+//            throw new RuntimeException("egadfdf");
+            return false;
         }
         String inputHash = PasswordUtil.encrypt(password);
         return storedHash.equals(inputHash);

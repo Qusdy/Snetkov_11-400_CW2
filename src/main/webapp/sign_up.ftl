@@ -5,7 +5,8 @@
     <h2>Registration</h2>
     <form method="post" action="/sign_up">
         Login:<br>
-        <input type="text" name="login" placeholder="enter login" maxlength="31">
+        <input type="text" name="login" id="login" placeholder="enter login" maxlength="31">
+        <span id="loginStatus"></span>
         <br><br>
 
         Password:<br>
@@ -20,7 +21,26 @@
         <input type="text" name="lastname" value="lastname" maxlength="31">
         <br><br>
 
-        <input type="submit" value="Sign Up">
+        <input type="submit" value="Sign Up" id="submitBtn">
     </form>
+    <script>
+        $(document).on("input", "#login", function () {
+            console.log("check");
+            var login = $(this).val();
+            $.get("/check_existence", {login: login}, function(response) {
+                console.log(response);
+                if (response === "already registered") {
+                    $("#loginStatus").text("Логин занят").css("color", "red");
+                    $("#submitBtn").attr('disabled', true);
+                } else if (response === "ok") {
+                    $("#loginStatus").text("Логин свободен").css("color", "green");
+                    $("#submitBtn").attr('disabled', false);
+                }
+            }).fail(function() {
+                loginStatus.text("Ошибка проверки").css("color", "red");
+                submitBtn.prop('disabled', true);
+            });
+        })
+    </script>
 </#macro>
 </html>
