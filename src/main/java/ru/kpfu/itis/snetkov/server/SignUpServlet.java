@@ -1,22 +1,27 @@
 package ru.kpfu.itis.snetkov.server;
 
-import ru.kpfu.itis.snetkov.dao.UserDao;
-import ru.kpfu.itis.snetkov.dao.impl.UserDaoImpl;
 import ru.kpfu.itis.snetkov.entity.User;
 import ru.kpfu.itis.snetkov.service.UserService;
 import ru.kpfu.itis.snetkov.service.impl.UserServiceImpl;
-import ru.kpfu.itis.snetkov.util.PasswordUtil;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
+import java.nio.file.Paths;
+
+import static ru.kpfu.itis.snetkov.server.FileUploadServlet.DIRECTORIES_COUNT;
+import static ru.kpfu.itis.snetkov.server.FileUploadServlet.FILE_PREFIX;
 
 @WebServlet(name = "SignUp", urlPatterns = "/sign_up")
+@MultipartConfig(maxFileSize = 5*1024*1024, maxRequestSize = 10*1024*1024)
 public class SignUpServlet extends HttpServlet {
     UserService userService = new UserServiceImpl();
 
@@ -32,12 +37,29 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
         String name = req.getParameter("name");
         String lastname = req.getParameter("lastname");
+        String filename = fileUpload(req, resp);
+        if (!login.isEmpty() && !password.isEmpty() && userService.save(new User(name, lastname, login, filename, password))) {
 
-        if (!login.isEmpty() && !password.isEmpty() && userService.save(new User(name, lastname, login, password))) {
             resp.sendRedirect("login");
         } else {
             resp.sendRedirect("sign_up");
         }
         // TODO: persist in memory (Map) login + password and after that use it in LoginServlet instead of "login" and "password"
+    }
+
+    private String fileUpload(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        Part part = req.getPart("file");
+        String appPath = req.getServletContext().getRealPath("/");
+        String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+        File file = new File(appPath + File.separator + FILE_PREFIX + File.separator + filename.hashCode() % DIRECTORIES_COUNT + File.separator + filename);
+        InputStream content = part.getInputStream();
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+        FileOutputStream outputStream = new FileOutputStream(file);
+        byte[] buffer = new byte[content.available()];
+        content.read(buffer);
+        outputStream.write(buffer);
+        outputStream.close();
+        return FILE_PREFIX + File.separator + filename.hashCode() % DIRECTORIES_COUNT + File.separator + filename;
     }
 }

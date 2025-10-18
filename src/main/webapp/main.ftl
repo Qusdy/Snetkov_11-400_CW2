@@ -10,6 +10,7 @@
         Session ID: ${sessionId}
         <br>
         Cookie user: ${cookieUser}
+        <img src="${src}" alt="">
     </h3>
 </#macro>
 </html>

@@ -37,18 +37,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean save(User user) {
-        String sql = "insert into users (name, lastname, login, password) VALUES (?, ?, ?, ?)";
+        String sql = "insert into users (name, lastname, login, password, image) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getLogin());
+
             preparedStatement.setString(4, PasswordUtil.encrypt(user.getPassword()));
+            preparedStatement.setString(5, user.getImage());
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            return false;
-//            throw new RuntimeException(e);
+//            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,7 +65,8 @@ public class UserDaoImpl implements UserDao {
                 return new User(
                         resultSet.getString("name"),
                         resultSet.getString("lastname"),
-                        resultSet.getString("login")
+                        resultSet.getString("login"),
+                        resultSet.getString("image")
                 );
             }
             return null;

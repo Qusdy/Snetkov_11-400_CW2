@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAll() {
-        return userDao.getAll().stream().map(u -> new UserDto(u.getName(), u.getLogin())).toList();
+        return userDao.getAll().stream().map(u -> new UserDto(u.getName(), u.getLogin(), u.getImage())).toList();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getByLogin(String login) {
         User user = userDao.getByLogin(login);
-        return user == null ? null : new UserDto(user.getName(), login);
+        return user == null ? null : new UserDto(user.getName(), login, user.getImage());
     }
 
     @Override

@@ -3,7 +3,7 @@
 <#macro title>Sign Up</#macro>
 <#macro content>
     <h2>Registration</h2>
-    <form method="post" action="/sign_up">
+    <form method="post" action="/sign_up" enctype="multipart/form-data">
         Login:<br>
         <input type="text" name="login" id="login" placeholder="enter login" maxlength="31">
         <span id="loginStatus"></span>
@@ -20,6 +20,9 @@
         Lastname:<br>
         <input type="text" name="lastname" value="lastname" maxlength="31">
         <br><br>
+        
+        photo:<br>
+        <input type="file" id="file" name="file" accept="image/*" required>
 
         <input type="submit" value="Sign Up" id="submitBtn">
     </form>
@@ -36,10 +39,7 @@
                     $("#loginStatus").text("Логин свободен").css("color", "green");
                     $("#submitBtn").attr('disabled', false);
                 }
-            }).fail(function() {
-                loginStatus.text("Ошибка проверки").css("color", "red");
-                submitBtn.prop('disabled', true);
-            });
+            })
         })
     </script>
 </#macro>

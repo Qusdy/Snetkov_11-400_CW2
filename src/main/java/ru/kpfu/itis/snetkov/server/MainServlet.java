@@ -13,6 +13,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String user = (String) req.getSession().getAttribute("user");
+        String image = (String) req.getSession().getAttribute("image");
         String cookieUser = "";
         String sessionId = "";
         Cookie[] cookies = req.getCookies();
@@ -30,6 +31,8 @@ public class MainServlet extends HttpServlet {
         req.setAttribute("user", user);
         req.setAttribute("sessionId", sessionId);
         req.setAttribute("cookieUser", cookieUser);
+        req.setAttribute("src", image);
+//        throw new RuntimeException(image);
         req.getRequestDispatcher("main.ftl").forward(req, resp);
     }
 }

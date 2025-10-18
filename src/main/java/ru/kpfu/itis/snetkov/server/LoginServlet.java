@@ -32,6 +32,8 @@ public class LoginServlet extends HttpServlet {
             // session
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("user", login);
+
+            httpSession.setAttribute("image", userService.getByLogin(login).getImage());
             httpSession.setMaxInactiveInterval(60 * 60);
 
             // cookie
