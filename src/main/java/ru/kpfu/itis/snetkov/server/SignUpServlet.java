@@ -1,8 +1,10 @@
 package ru.kpfu.itis.snetkov.server;
 
+import com.cloudinary.Cloudinary;
 import ru.kpfu.itis.snetkov.entity.User;
 import ru.kpfu.itis.snetkov.service.UserService;
 import ru.kpfu.itis.snetkov.service.impl.UserServiceImpl;
+import ru.kpfu.itis.snetkov.util.CloudinaryUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -16,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import static ru.kpfu.itis.snetkov.server.FileUploadServlet.DIRECTORIES_COUNT;
 import static ru.kpfu.itis.snetkov.server.FileUploadServlet.FILE_PREFIX;
@@ -24,6 +28,7 @@ import static ru.kpfu.itis.snetkov.server.FileUploadServlet.FILE_PREFIX;
 @MultipartConfig(maxFileSize = 5*1024*1024, maxRequestSize = 10*1024*1024)
 public class SignUpServlet extends HttpServlet {
     UserService userService = new UserServiceImpl();
+    private static final Cloudinary cloudinary = CloudinaryUtil.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -60,6 +65,6 @@ public class SignUpServlet extends HttpServlet {
         content.read(buffer);
         outputStream.write(buffer);
         outputStream.close();
-        return FILE_PREFIX + File.separator + filename.hashCode() % DIRECTORIES_COUNT + File.separator + filename;
+        return cloudinary.uploader().upload(file, new HashMap()).get("url").toString();
     }
 }
