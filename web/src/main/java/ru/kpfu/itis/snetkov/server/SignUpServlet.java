@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 
 import static ru.kpfu.itis.snetkov.server.FileUploadServlet.DIRECTORIES_COUNT;
 import static ru.kpfu.itis.snetkov.server.FileUploadServlet.FILE_PREFIX;

@@ -1,9 +1,7 @@
 package ru.kpfu.itis.snetkov.server;
 
-import ru.kpfu.itis.snetkov.dto.UserDto;
 import ru.kpfu.itis.snetkov.service.UserService;
 import ru.kpfu.itis.snetkov.service.impl.UserServiceImpl;
-import ru.kpfu.itis.snetkov.util.PasswordUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;

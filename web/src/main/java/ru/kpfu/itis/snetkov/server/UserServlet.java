@@ -1,6 +1,5 @@
 package ru.kpfu.itis.snetkov.server;
 
-import ru.kpfu.itis.snetkov.dto.UserDto;
 import ru.kpfu.itis.snetkov.service.UserService;
 import ru.kpfu.itis.snetkov.service.impl.UserServiceImpl;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "User", urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
